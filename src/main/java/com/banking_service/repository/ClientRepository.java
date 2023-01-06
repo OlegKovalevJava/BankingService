@@ -9,4 +9,6 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 
     BigDecimal getBalanceForId(Long accountId);
 
+    void save(Long accountId, BigDecimal amount);
+
 }
