@@ -14,7 +14,7 @@ public class BankService {
     private final ClientRepository clientRepository;
 
     public BigDecimal getBalance(Long accountID) {
-        BigDecimal balance = clientRepository.getBalanceForId(accountID);
+        BigDecimal balance = clientRepository.getBalance(accountID);
         if (balance == null) {
             throw new IllegalArgumentException();
         }
@@ -22,7 +22,7 @@ public class BankService {
     }
 
     public BigDecimal putMoney(Long toIdBalance, BigDecimal amount) {
-        BigDecimal currentBalance = clientRepository.getBalanceForId(toIdBalance);
+        BigDecimal currentBalance = clientRepository.getBalance(toIdBalance);
         if (currentBalance == null) {
             clientRepository.save(toIdBalance, amount);
             return amount;
@@ -34,7 +34,7 @@ public class BankService {
     }
 
     public BigDecimal takeMoney(Long toIdBalance, BigDecimal amount) {
-        BigDecimal currentBalance = clientRepository.getBalanceForId(toIdBalance);
+        BigDecimal currentBalance = clientRepository.getBalance(toIdBalance);
         if (currentBalance == null) {
             throw new IllegalArgumentException("This amount is not available, please repeat the operation");
         } else {
@@ -45,8 +45,8 @@ public class BankService {
     }
 
     public void transferMoney(TransferBalance transferBalance) {
-        BigDecimal senderBalance = clientRepository.getBalanceForId(transferBalance.getSenderId());
-        BigDecimal recipientBalance = clientRepository.getBalanceForId(transferBalance.getRecipientId());
+        BigDecimal senderBalance = clientRepository.getBalance(transferBalance.getSenderId());
+        BigDecimal recipientBalance = clientRepository.getBalance(transferBalance.getRecipientId());
 
         if (senderBalance == null || recipientBalance == null)
             throw new IllegalArgumentException("Failed to complete the operation, check the details of the sender and recipient");
